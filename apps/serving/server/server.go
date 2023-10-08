@@ -7,7 +7,10 @@ import (
 	"os"
 	"os/signal"
 
+	"github.com/sdual/mlserving/apps/serving/adaptor/controller"
+	pb "github.com/sdual/mlserving/proto/serving/predict"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 type GRPCServer struct {
@@ -21,6 +24,9 @@ func (gs GRPCServer) Start() {
 	}
 
 	s := grpc.NewServer()
+
+	pb.RegisterPredictServiceServer(s, &controller.PredictServiceServer{})
+	reflection.Register(s)
 
 	go func() {
 		log.Printf("start gRPC server port: %v", port)
