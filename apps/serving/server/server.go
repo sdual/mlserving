@@ -20,16 +20,13 @@ func (gs GRPCServer) Start() {
 		panic(err)
 	}
 
-	// 2. gRPCサーバーを作成
 	s := grpc.NewServer()
 
-	// 3. 作成したgRPCサーバーを、8080番ポートで稼働させる
 	go func() {
 		log.Printf("start gRPC server port: %v", port)
 		s.Serve(listener)
 	}()
 
-	// 4.Ctrl+Cが入力されたらGraceful shutdownされるようにする
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
