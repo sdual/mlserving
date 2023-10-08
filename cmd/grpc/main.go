@@ -1,7 +1,8 @@
 package main
 
-import "fmt"
+import "github.com/sdual/mlserving/apps/serving/server"
 
 func main() {
-	fmt.Println("hello grpc")
+	s := server.GRPCServer{}
+	s.Start()
 }
