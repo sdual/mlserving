@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package serving.predict;
+option  go_package = "github.com/sdual/mlserving/proto/go/serving/predict";
+
+service PredictService {
+  rpc Predict(PredictRequest) returns (PredictResponse) {}
+}
+
+message PredictRequest {
+  int64 id = 1;
+}
+
+message PredictResponse {
+  int64 id = 1;
+}
