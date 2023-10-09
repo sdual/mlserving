@@ -1,10 +1,12 @@
 BINDIR:=bin
 
 ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-COMMAND_PACKAGES = $(shell ls -d `pwd`/cmd/*)
+
+COMMAND_PACKAGES = $(shell ls -d `pwd`/apps/**/cmd/*)
+MAIN_GO_FILES = $(shell ls `pwd`/apps/**/cmd/*)
 
 # output binary file paths (bin/grpc, bin/rest and so on.)
-BINARIES:=$(COMMAND_PACKAGES:$(ROOT_DIR)/cmd/%=$(BINDIR)/%)
+BINARIES:=$(COMMAND_PACKAGES:$(ROOT_DIR)/apps/serving/cmd/%=$(BINDIR)/%)
 
 # go files list
 GO_FILES:=$(shell find . -type f -name '*.go' -print)
@@ -28,7 +30,7 @@ clean:
 
 # build tasks
 $(BINARIES): $(GO_FILES) $(GOPB_FILES)
-	@GOOS=linux GOARCH=arm64 go  build -o $@ $(@:$(BINDIR)/%=$(ROOT_DIR)/cmd/%)
+	@GOOS=linux GOARCH=arm64 go build -o $@ $(@:$(BINDIR)/%=$(ROOT_DIR)/apps/serving/cmd/%)
 
 # build proto
 $(GOPB_FILES): $(PB_FILES)
@@ -40,3 +42,6 @@ $(GOPB_FILES): $(PB_FILES)
 		--go-grpc_out=./proto \
 		--go-grpc_opt=paths=source_relative \
 		$(PB_FILES)
+
+test:
+	@echo $(BINARIES)

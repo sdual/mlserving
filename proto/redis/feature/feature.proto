@@ -1,4 +1,4 @@
 syntax = "proto3";
 
-package serving.redis.feature;
+package redis.feature;
 option go_package = "github.com/sdual/mlserving/proto/redis/feature";
