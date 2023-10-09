@@ -1,6 +1,8 @@
 package repository
 
-import "github.com/sdual/mlserving/gcp/memorystore/redis"
+import (
+	"github.com/sdual/mlserving/pkg/gcp/memorystore/redis"
+)
 
 type Feature struct {
 	client *redis.Client
