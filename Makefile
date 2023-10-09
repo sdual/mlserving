@@ -12,23 +12,31 @@ GO_FILES:=$(shell find . -type f -name '*.go' -print)
 PB_FILES:=$(shell find . -type f -name '*.proto' -print)
 # generated .go files from proto
 GOPB_FILES:=$(PB_FILES:%.proto=%.pb.go)
+# generated .go grpc files from proto
+GO_GRPCPB_FILES:=$(PB_FILES:%.proto=%_grpc.pb.go)
+
+# GOPATH
+GOPATH:=$(shell go env GOPATH)
 
 # build
 .PHONY: build
 build: $(BINARIES)
 
+.PHONY: clean
+clean:
+	@$(RM) $(GOPB_FILES) $(GO_GRPCPB_FILES) $(BINARIES)
+
 # build tasks
 $(BINARIES): $(GO_FILES) $(GOPB_FILES)
-	@go build -o $@ $(@:$(BINDIR)/%=$(ROOT_DIR)/cmd/%)
+	@GOOS=linux GOARCH=arm64 go  build -o $@ $(@:$(BINDIR)/%=$(ROOT_DIR)/cmd/%)
 
 # build proto
-$(GOPB_FILES): $(PB_FILES) $(BINDIR)/protoc-gen-go
+$(GOPB_FILES): $(PB_FILES)
 	@protoc \
-		--plugin=protoc-gen-go=$(BINDIR)/protoc-gen-go \
+		--plugin=protoc-gen-go=$(GOPATH)/bin/protoc-gen-go \
 		-I ./proto \
 		--go_out=./proto \
 		--go_opt=paths=source_relative \
-		$(@:%.pb.go=%.proto)
-
-$(BINDIR)/protoc-gen-go: go.sum
-	@go build -o $@ google.golang.org/protobuf/cmd/protoc-gen-go
+		--go-grpc_out=./proto \
+		--go-grpc_opt=paths=source_relative \
+		$(PB_FILES)
