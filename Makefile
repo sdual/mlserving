@@ -42,6 +42,3 @@ $(GOPB_FILES): $(PB_FILES)
 		--go-grpc_out=./proto \
 		--go-grpc_opt=paths=source_relative \
 		$(PB_FILES)
-
-test:
-	@echo $(BINARIES)
