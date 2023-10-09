@@ -28,7 +28,7 @@ clean:
 
 # build tasks
 $(BINARIES): $(GO_FILES) $(GOPB_FILES)
-	@go build -o $@ $(@:$(BINDIR)/%=$(ROOT_DIR)/cmd/%)
+	@GOOS=linux GOARCH=arm64 go  build -o $@ $(@:$(BINDIR)/%=$(ROOT_DIR)/cmd/%)
 
 # build proto
 $(GOPB_FILES): $(PB_FILES)
