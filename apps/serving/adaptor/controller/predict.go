@@ -3,7 +3,7 @@ package controller
 import (
 	"context"
 
-	pb "github.com/sdual/mlserving/proto/serving/predict"
+	pb "github.com/sdual/mlserving/proto/grpc/serving/predict"
 )
 
 type PredictServiceServer struct {
