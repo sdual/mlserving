@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package serving.predict;
+package grpc.serving.predict;
 option go_package = "github.com/sdual/mlserving/proto/grpc/serving/predict";
 
 service PredictService {
