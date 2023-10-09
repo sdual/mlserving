@@ -7,7 +7,7 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/sdual/mlserving/apps/serving/adaptor/controller"
+	"github.com/sdual/mlserving/apps/serving/internal/adaptor/controller"
 	pb "github.com/sdual/mlserving/proto/grpc/serving/predict"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
