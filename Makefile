@@ -38,11 +38,3 @@ $(GOPB_FILES): $(PB_FILES)
 		--go-grpc_out=./proto \
 		--go-grpc_opt=paths=source_relative \
 		$(PB_FILES)
-
-# $(BINDIR)/protoc-gen-go: go.sum
-# 	@go build -o $@ google.golang.org/protobuf/cmd/protoc-gen-go
-
-# $(GOPB_FILES):
-# 	@echo $(@:%.pb.go=%.proto)
-
-# docker:
