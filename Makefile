@@ -12,6 +12,8 @@ GO_FILES:=$(shell find . -type f -name '*.go' -print)
 PB_FILES:=$(shell find . -type f -name '*.proto' -print)
 # generated .go files from proto
 GOPB_FILES:=$(PB_FILES:%.proto=%.pb.go)
+# generated .go grpc files from proto
+GO_GRPCPB_FILES:=$(PB_FILES:%.proto=%_grpc.pb.go)
 
 # GOPATH
 GOPATH:=$(shell go env GOPATH)
@@ -22,7 +24,7 @@ build: $(BINARIES)
 
 .PHONY: clean
 clean:
-	@$(RM) $(GOPB_FILES) $(BINARIES) $(BINDIR)/protoc-gen-go
+	@$(RM) $(GOPB_FILES) $(GO_GRPCPB_FILES) $(BINARIES)
 
 # build tasks
 $(BINARIES): $(GO_FILES) $(GOPB_FILES)
