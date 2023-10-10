@@ -2,6 +2,7 @@ package redis
 
 import (
 	"context"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -56,4 +57,12 @@ func (c Client) Get(ctx context.Context, key string) ([]byte, error) {
 		return nil, err
 	}
 	return val, nil
+}
+
+func (c Client) Set(ctx context.Context, key string, value []byte, expiration time.Duration) error {
+	err := c.client.Set(ctx, key, value, expiration).Err()
+	if err != nil {
+		return err
+	}
+	return nil
 }
