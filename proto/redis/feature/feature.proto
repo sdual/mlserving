@@ -2,3 +2,16 @@ syntax = "proto3";
 
 package redis.feature;
 option go_package = "github.com/sdual/mlserving/proto/redis/feature";
+
+message Feature {
+  Numerical   numerical   = 1;
+  Categorical categorical = 2;
+
+  message Numerical {
+    repeated string value = 1;
+  }
+
+  message Categorical {
+    repeated int64  value = 1;
+  }
+}
