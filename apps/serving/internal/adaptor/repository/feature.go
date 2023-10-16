@@ -1,6 +1,9 @@
 package repository
 
 import (
+	"context"
+
+	"github.com/sdual/mlserving/apps/serving/internal/domain/model"
 	"github.com/sdual/mlserving/pkg/gcp/memorystore/redis"
 )
 
@@ -14,6 +17,7 @@ func NewFeature(client *redis.Client) Feature {
 	}
 }
 
-func (f Feature) Get() {
-	f.client.Get()
+func (f Feature) Get(ctx context.Context, key string) (model.Features, error) {
+	f.client.Get(ctx, key)
+	return model.Features{}, nil
 }

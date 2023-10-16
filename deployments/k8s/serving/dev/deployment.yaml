@@ -5,7 +5,7 @@ metadata:
   labels:
     app: serving-grpc
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: serving-grpc
@@ -20,3 +20,6 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
+        env:
+        - name: SYSTEM_ENV
+          value: "dev"
