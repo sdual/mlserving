@@ -8,6 +8,7 @@ import (
 	"os/signal"
 
 	"github.com/sdual/mlserving/apps/serving/internal/adaptor/controller"
+	"github.com/sdual/mlserving/apps/serving/internal/config"
 	pb "github.com/sdual/mlserving/proto/grpc/serving/predict"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -16,26 +17,26 @@ import (
 type GRPCServer struct {
 }
 
-func (gs GRPCServer) Start() {
-	port := 8080
+func (gs GRPCServer) Start(config config.GRPCConfig) {
+	port := config.Port
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		panic(err)
 	}
 
-	s := grpc.NewServer()
+	server := grpc.NewServer()
 
-	pb.RegisterPredictServiceServer(s, &controller.PredictServiceServer{})
-	reflection.Register(s)
+	pb.RegisterPredictServiceServer(server, &controller.PredictServiceServer{})
+	reflection.Register(server)
 
 	go func() {
-		log.Printf("start gRPC server port: %v", port)
-		s.Serve(listener)
+		log.Printf("start gRPC server port: %d", port)
+		server.Serve(listener)
 	}()
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
 	log.Println("stopping gRPC server...")
-	s.GracefulStop()
+	server.GracefulStop()
 }
