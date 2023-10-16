@@ -2,11 +2,11 @@ package server
 
 import (
 	"fmt"
-	"log"
 	"net"
 	"os"
 	"os/signal"
 
+	"github.com/rs/zerolog/log"
 	"github.com/sdual/mlserving/apps/serving/internal/adaptor/controller"
 	"github.com/sdual/mlserving/apps/serving/internal/config"
 	pb "github.com/sdual/mlserving/proto/grpc/serving/predict"
@@ -17,7 +17,7 @@ import (
 type GRPCServer struct {
 }
 
-func (gs GRPCServer) Start(config config.GRPCConfig) {
+func (gs GRPCServer) Start(config config.GRPC) {
 	port := config.Port
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
@@ -30,13 +30,13 @@ func (gs GRPCServer) Start(config config.GRPCConfig) {
 	reflection.Register(server)
 
 	go func() {
-		log.Printf("start gRPC server port: %d", port)
+		log.Info().Msgf("start gRPC server port: %d", port)
 		server.Serve(listener)
 	}()
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
-	log.Println("stopping gRPC server...")
+	log.Info().Msg("stopping gRPC server...")
 	server.GracefulStop()
 }

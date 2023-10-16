@@ -2,15 +2,20 @@ package config
 
 type (
 	AppConfig struct {
-		GRPC         GRPCConfig         `mapstructure:"grpc"`
-		FeatureRedis FeatureRedisConfig `mapstructure:"feature_redis"`
+		GRPC         GRPC         `mapstructure:"grpc"`
+		Logger       Logger       `mapstructure:"logger"`
+		FeatureRedis FeatureRedis `mapstructure:"feature_redis"`
 	}
 
-	GRPCConfig struct {
-		Port int `mapstructure:"address"`
+	GRPC struct {
+		Port int `mapstructure:"port"`
 	}
 
-	FeatureRedisConfig struct {
+	Logger struct {
+		LogLevel string `mapstructure:"log_level"`
+	}
+
+	FeatureRedis struct {
 		Addr string `mapstructure:"address"`
 		DB   int    `mapstructure:"db"`
 	}

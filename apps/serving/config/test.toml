@@ -4,3 +4,6 @@ port = 8080
 [feature_redis]
 address = "localhost:6379"
 db = 0
+
+[logger]
+log_level = "info"
