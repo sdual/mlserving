@@ -33,6 +33,7 @@ func (p PredictServiceServer) Predict(ctx context.Context, req *pb.PredictReques
 	}
 
 	return &pb.PredictResponse{
+		RequestId:   req.RequestId,
 		Predictions: preds,
 	}, nil
 }
