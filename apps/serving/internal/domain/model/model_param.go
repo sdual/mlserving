@@ -7,8 +7,8 @@ type (
 	}
 
 	CacheFFMParameter struct {
-		Field         string            `json:"key"`
-		LatentVectors map[int][]float64 `json:"value"`
+		Field         string
+		LatentVectors map[int][]float64
 	}
 
 	FFMParameter struct {
