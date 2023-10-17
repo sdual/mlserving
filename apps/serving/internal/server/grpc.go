@@ -8,7 +8,10 @@ import (
 
 	"github.com/rs/zerolog/log"
 	"github.com/sdual/mlserving/apps/serving/internal/adaptor/controller"
+	"github.com/sdual/mlserving/apps/serving/internal/adaptor/repository"
 	"github.com/sdual/mlserving/apps/serving/internal/config"
+	"github.com/sdual/mlserving/apps/serving/internal/domain/service"
+	"github.com/sdual/mlserving/apps/serving/internal/usecase"
 	pb "github.com/sdual/mlserving/proto/grpc/serving/predict"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -26,7 +29,7 @@ func (gs GRPCServer) Start(config config.GRPC) {
 
 	server := grpc.NewServer()
 
-	pb.RegisterPredictServiceServer(server, &controller.PredictServiceServer{})
+	pb.RegisterPredictServiceServer(server, initPredictServiceServer())
 	reflection.Register(server)
 
 	go func() {
@@ -39,4 +42,12 @@ func (gs GRPCServer) Start(config config.GRPC) {
 	<-quit
 	log.Info().Msg("stopping gRPC server...")
 	server.GracefulStop()
+}
+
+func initPredictServiceServer() *controller.PredictServiceServer {
+	ffmParamRepo := repository.NewFFMModelParam()
+	ffm := service.NewFFMPredictor(ffmParamRepo)
+	ffmPrep := service.NewFFMPreprocessor()
+	predUsecase := usecase.NewPediction(ffm, ffmPrep)
+	return controller.NewPredictServiceServer(predUsecase)
 }

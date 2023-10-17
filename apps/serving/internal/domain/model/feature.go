@@ -1,11 +1,32 @@
 package model
 
+import (
+	"hash/fnv"
+)
+
 type (
 	Features struct {
-		numerical   NumericalFeatures
-		categorical CategoricalFeatures
+		Numericals   []*Numerical
+		Categoricals []*Categorical
 	}
 
-	NumericalFeatures   []float64
-	CategoricalFeatures []string
+	Numerical struct {
+		Name  string
+		Value float64
+	}
+
+	Categorical struct {
+		Name  string
+		Value string
+	}
 )
+
+const (
+	hashedVecDim int = 131072 // 2^17
+)
+
+func (c Categorical) HashingTrick() int {
+	hash := fnv.New32a()
+	hash.Write([]byte(c.Value))
+	return int(hash.Sum32()) % hashedVecDim
+}
