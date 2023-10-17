@@ -23,3 +23,7 @@ spec:
         env:
         - name: SYSTEM_ENV
           value: "dev"
+        resources:
+          requests:
+            cpu: 4000m
+            memory: 500Mi

@@ -27,8 +27,8 @@ func Load(appName string, config any) any {
 }
 
 func confFilePath(currentEnv env.SystemEnv, appName string) string {
-	if currentEnv == env.Test {
-		return "apps/" + appName + "/config/"
+	if currentEnv != env.Test {
+		return "/config/"
 	}
-	return "/"
+	return "apps/" + appName + "/config/"
 }
