@@ -27,3 +27,5 @@ bin/
 
 # Compiled proto file
 *.pb.go
+
+*.jsonl

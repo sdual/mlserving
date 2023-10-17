@@ -12,12 +12,22 @@ message PredictRequest {
   repeated Feature features = 2;
 
   message Feature {
-    repeated string categorical_features = 2;
-    repeated double numerical_features = 3;
+    repeated CategoricalFeature categorical_features = 2;
+    repeated NumericalFeature numerical_features = 3;
+  }
+
+  message NumericalFeature {
+    string name = 1;
+    double value = 2;
+  }
+
+  message CategoricalFeature {
+    string name = 1;
+    string value = 2;
   }
 }
 
 message PredictResponse {
   string request_id = 1;
-  repeated float predictions = 2;
+  repeated double predictions = 2;
 }
