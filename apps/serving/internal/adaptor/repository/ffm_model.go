@@ -24,7 +24,7 @@ type (
 )
 
 func NewFFMModelParam() FFMModelParam {
-	modelBytes, err := os.ReadFile("model.jsonl")
+	modelBytes, err := os.ReadFile("/model.jsonl")
 	if err != nil {
 		log.Fatal().Msgf("failed to read model file: %v", err)
 	}
