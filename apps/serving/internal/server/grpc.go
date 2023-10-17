@@ -48,6 +48,6 @@ func initPredictServiceServer() *controller.PredictServiceServer {
 	ffmParamRepo := repository.NewFFMModelParam()
 	ffm := service.NewFFMPredictor(ffmParamRepo)
 	ffmPrep := service.NewFFMPreprocessor()
-	predUsecase := usecase.NewPediction(ffm, ffmPrep)
+	predUsecase := usecase.NewPrediction(ffm, ffmPrep)
 	return controller.NewPredictServiceServer(predUsecase)
 }
