@@ -10,9 +10,10 @@ type Prediction struct {
 	preprocessor service.FFMPreprocessor
 }
 
-func NewPediction(ffm service.FFMPredictor) Prediction {
+func NewPediction(ffm service.FFMPredictor, ffmPrep service.FFMPreprocessor) Prediction {
 	return Prediction{
-		predictor: ffm,
+		predictor:    ffm,
+		preprocessor: ffmPrep,
 	}
 }
 

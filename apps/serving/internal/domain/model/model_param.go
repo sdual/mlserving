@@ -6,13 +6,13 @@ type (
 		TargetField string
 	}
 
-	RawFFMParameter struct {
-		Field         string               `json:"key"`
-		LatentVectors map[string][]float64 `json:"value"`
+	CacheFFMParameter struct {
+		Field         string            `json:"key"`
+		LatentVectors map[int][]float64 `json:"value"`
 	}
 
 	FFMParameter struct {
 		FieldIndex    int
-		LatentVectors map[string][]float64
+		LatentVectors map[int][]float64
 	}
 )

@@ -40,7 +40,7 @@ func (fp FFMPredictor) Predict(modelFields []*model.FFMModelField) (float64, err
 		for j := i + 1; j < len(params); j++ {
 			p1 := params[i]
 			p2 := params[j]
-			exponent += fp.innerProduct(p1.LatentVectors[p2.Field], p2.LatentVectors[p1.Field])
+			exponent += fp.innerProduct(p1.LatentVectors[p2.FieldIndex], p2.LatentVectors[p1.FieldIndex])
 		}
 	}
 	paramLen := len(params)

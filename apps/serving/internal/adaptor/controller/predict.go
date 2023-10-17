@@ -16,6 +16,12 @@ type PredictServiceServer struct {
 	pb.UnimplementedPredictServiceServer
 }
 
+func NewPredictServiceServer(pred usecase.Prediction) *PredictServiceServer {
+	return &PredictServiceServer{
+		prediction: pred,
+	}
+}
+
 // Predict method responses predicted results.
 // grpcurl -plaintext -d '{"id": 1001}' localhost:8080 serving.predict.PredictService.Predict
 func (p PredictServiceServer) Predict(ctx context.Context, req *pb.PredictRequest) (*pb.PredictResponse, error) {
