@@ -3,7 +3,6 @@ package repository
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"os"
 	"strconv"
 
@@ -24,7 +23,28 @@ type (
 )
 
 func NewFFMModelParam() FFMModelParam {
-	modelBytes, err := os.ReadFile("/model.jsonl")
+	modelParams := loadModel()
+	log.Info().Msg("Model loading is finished")
+	return FFMModelParam{
+		modelParams: modelParams,
+	}
+}
+
+func (f FFMModelParam) Find(fields []*model.FFMModelField) ([]*model.FFMParameter, error) {
+	params := make([]*model.FFMParameter, len(fields))
+	for i, field := range fields {
+		if p, ok := f.modelParams[field.TargetField]; ok {
+			params[i] = &model.FFMParameter{
+				FieldIndex:    field.FieldIndex,
+				LatentVectors: p.LatentVectors,
+			}
+		}
+	}
+	return params, nil
+}
+
+func loadModel() map[string]*model.CacheFFMParameter {
+	modelBytes, err := os.ReadFile("model.jsonl")
 	if err != nil {
 		log.Fatal().Msgf("failed to read model file: %v", err)
 	}
@@ -60,22 +80,5 @@ func NewFFMModelParam() FFMModelParam {
 			LatentVectors: latentVectors,
 		}
 	}
-
-	fmt.Println(paramMap["criteo_131071"])
-	return FFMModelParam{
-		modelParams: paramMap,
-	}
-}
-
-func (f FFMModelParam) Find(fields []*model.FFMModelField) ([]*model.FFMParameter, error) {
-	params := make([]*model.FFMParameter, len(fields))
-	for i, field := range fields {
-		if p, ok := f.modelParams[field.TargetField]; ok {
-			params[i] = &model.FFMParameter{
-				FieldIndex:    field.FieldIndex,
-				LatentVectors: p.LatentVectors,
-			}
-		}
-	}
-	return params, nil
+	return paramMap
 }
