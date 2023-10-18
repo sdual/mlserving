@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: serving-grpc
-        image: serving-grpc:0.0.1
+        image: asia-northeast1-docker.pkg.dev/sduality-analysis/prediction/serving-grpc:0.0.2
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
