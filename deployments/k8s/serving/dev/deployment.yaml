@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: serving-grpc
-        image: asia-northeast1-docker.pkg.dev/sduality-analysis/prediction/serving-grpc:0.0.2
+        image: asia-northeast1-docker.pkg.dev/sduality-analysis/prediction/serving-grpc:1.0.1
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
@@ -25,5 +25,8 @@ spec:
           value: "dev"
         resources:
           requests:
+            cpu: 4000m
+            memory: 500Mi
+          limits:
             cpu: 4000m
             memory: 500Mi
