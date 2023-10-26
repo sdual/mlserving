@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laod-test
+  labels:
+    app: load-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: load-test
+  template:
+    metadata:
+      labels:
+        app: load-test
+    spec:
+      containers:
+      - name: ghz-load-test
+        image: asia-northeast1-docker.pkg.dev/sduality-analysis/prediction/ghz-load-test:1.0.1
+        command: ["/bin/sh", "-c", "sleep 100000"]
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 6000m
+            memory: 500Mi

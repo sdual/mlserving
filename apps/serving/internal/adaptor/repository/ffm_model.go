@@ -44,7 +44,7 @@ func (f FFMModelParam) Find(fields []*model.FFMModelField) ([]*model.FFMParamete
 }
 
 func loadModel() map[string]*model.CacheFFMParameter {
-	modelBytes, err := os.ReadFile("model.jsonl")
+	modelBytes, err := os.ReadFile("/model.jsonl")
 	if err != nil {
 		log.Fatal().Msgf("failed to read model file: %v", err)
 	}

@@ -29,7 +29,7 @@ func (gs GRPCServer) Start(config config.GRPC) {
 
 	server := grpc.NewServer()
 
-	pb.RegisterPredictServiceServer(server, initPredictServiceServer())
+	pb.RegisterPredictServiceServer(server, createPredictServiceServer())
 	reflection.Register(server)
 
 	go func() {
@@ -44,7 +44,7 @@ func (gs GRPCServer) Start(config config.GRPC) {
 	server.GracefulStop()
 }
 
-func initPredictServiceServer() *controller.PredictServiceServer {
+func createPredictServiceServer() *controller.PredictServiceServer {
 	ffmParamRepo := repository.NewFFMModelParam()
 	ffm := service.NewFFMPredictor(ffmParamRepo)
 	ffmPrep := service.NewFFMPreprocessor()

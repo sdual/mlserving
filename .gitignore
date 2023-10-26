@@ -29,3 +29,8 @@ bin/
 *.pb.go
 
 *.jsonl
+*.json
+*.html
+*.csv
+
+.DS_Store
